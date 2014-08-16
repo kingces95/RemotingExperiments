@@ -9,7 +9,9 @@ namespace RemotingExperiments {
     public class Program {
         static void Main(string[] args) {
 
+            Experiment.Run();
             InterfaceActivation.Test();
+            InterfaceActivationTcp.Test();
         }
     }
 }

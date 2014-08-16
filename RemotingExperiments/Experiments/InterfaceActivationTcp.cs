@@ -23,8 +23,7 @@ using System.Threading.Tasks;
  */
 namespace RemotingExperiments {
 
-
-    public class InterfaceActivation {
+    public class InterfaceActivationTcp {
 
         public static readonly int Port = 8001;
         public static readonly string Uid = "PingPong";

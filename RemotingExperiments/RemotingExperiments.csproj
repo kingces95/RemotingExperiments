@@ -42,11 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experiments\InterfaceActivationTcp.cs" />
+    <Compile Include="Experiments\Template.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="InterfaceActivation.cs" />
+    <Compile Include="Experiments\InterfaceActivation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnrestrictedFullDuplex.cs" />
+    <Compile Include="Experiments\UnrestrictedFullDuplex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
