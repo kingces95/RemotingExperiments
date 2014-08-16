@@ -31,12 +31,13 @@ namespace RemotingExperiments {
         public interface IPingable { void Ping(); }
         public interface IPongable { void Pong(); }
 
-        public class PingPong : MarshalByRefObject, IPingable, IPongable {
-            public void Ping() { }
-            public void Pong() { }
-        }
-
         public class Server {
+
+            // PingPong is not visible to client except via the interfaces
+            private class PingPong : MarshalByRefObject, IPingable, IPongable {
+                public void Ping() { }
+                public void Pong() { }
+            }
 
             public static void Run() {
 
@@ -52,7 +53,7 @@ namespace RemotingExperiments {
 
         public class Client {
 
-            public static void Run() {
+            public static void Run(string[] args) {
 
                 // activate pingable
                 var pingable = (IPingable)Activator.GetObject(

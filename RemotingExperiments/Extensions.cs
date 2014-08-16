@@ -16,10 +16,7 @@ namespace RemotingExperiments {
             }
         }
 
-        public static void RunInDomain(Action run) {
-            RunInDomain((Action<string[]>)(o => run()));
-        }
-        public static void RunInDomain(Action<string[]> run, params string[] arguments) {
+        public static void RunInDomain(AppDomainInitializer run, params string[] arguments) {
 
             AppDomain appDomain = null;
 
@@ -30,7 +27,7 @@ namespace RemotingExperiments {
                     appBasePath: null,
                     appRelativeSearchPath: null,
                     shadowCopyFiles: false,
-                    adInit: o => run(o),
+                    adInit: run,
                     adInitArgs: null
                 );
 
