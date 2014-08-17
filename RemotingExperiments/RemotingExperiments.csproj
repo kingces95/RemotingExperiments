@@ -43,9 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Experiments\InterfaceActivationTcp.cs" />
-    <Compile Include="Experiments\NewServer.cs" />
-    <Compile Include="Experiments\OldServer.cs" />
-    <Compile Include="Experiments\Template.cs" />
+    <Compile Include="Experiments\VersionedClient.cs" />
+    <Compile Include="Experiments\CrossAppDomainCall.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Experiments\InterfaceActivation.cs" />
     <Compile Include="Program.cs" />

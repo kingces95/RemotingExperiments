@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Components {
 
     public class Component : MarshalByRefObject, IComponent {
-        public void Ping() { }
+        public string GetVersion() {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
     }
     public interface IComponent {
-        void Ping();
+        string GetVersion();
     }
 }

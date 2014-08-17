@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace RemotingExperiments {
 
-    public static class OldServer {
+    public static class VersionedServer {
 
         public static readonly int Port = 8003;
         public static readonly string Uid = "Component";
@@ -50,25 +51,31 @@ namespace RemotingExperiments {
             }
             public static void ActivateComponent() {
 
-                var assembly = Assembly.GetExecutingAssembly();
-                var assemblyLocation = Path.GetDirectoryName(assembly.Location);
-                
+                // use debugger to examine which assemblies got loaded
                 AppDomain appDomain = AppDomain.CurrentDomain;
                 var assemblies = appDomain.GetAssemblies();
 
+                // use debugger to examine the location of the assemblies on disk
+                var assembly = Assembly.GetExecutingAssembly();
+                var assemblyLocation = Path.GetDirectoryName(assembly.Location);
+                
+                // get the version of the interface requested by the client
                 var type = typeof(IComponent);
-                var version = type.Assembly.GetName().Version;
+                var clientVersion = type.Assembly.GetName().Version.ToString();
 
-                // activate pingable
+                // activate component
                 var component = (IComponent)Activator.GetObject(
                     type,
                     "tcp://localhost:" + Port + "/" + Uid
                 );
-                component.Ping();
+
+                // see that the version of the client and server are different but it still works!
+                var serverVersion = component.GetVersion();
+                Debug.Assert(clientVersion != serverVersion);
             }
         }
 
-        public static void Run() {
+        public static void Run(string clientVersion) {
 
             // server
             using (var server = new Server()) {
@@ -77,19 +84,9 @@ namespace RemotingExperiments {
                 // client
                 var assembly = Assembly.GetExecutingAssembly();
                 var assemblyLocation = Path.GetDirectoryName(assembly.Location);
-                var basePath = Path.Combine(assemblyLocation, "v3");
+                var basePath = Path.Combine(assemblyLocation, clientVersion);
 
-                var appDomain = AppDomain.CreateDomain(
-                    friendlyName: string.Empty,
-                    securityInfo: null,
-                    appBasePath: basePath,
-                    appRelativeSearchPath: null,
-                    shadowCopyFiles: false,
-                    adInit: Client.Run,
-                    adInitArgs: null
-                );
-
-                AppDomain.Unload(appDomain);
+                Extensions.RunInDomain(Client.Run, basePath: basePath);
             }
         }
     }

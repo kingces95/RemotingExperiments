@@ -15,12 +15,15 @@ namespace RemotingExperiments {
                 run(arguments);
             }
 
+            // host is never collected by the GC even
             public override object InitializeLifetimeService() {
                 return null;
             }
         }
 
-        public static void RunInDomain(AppDomainInitializer run, params string[] arguments) {
+        public static void RunInDomain(AppDomainInitializer run, 
+            string basePath = null,
+            string[] arguments = null) {
 
             AppDomain appDomain = null;
 
@@ -28,11 +31,11 @@ namespace RemotingExperiments {
                 appDomain = AppDomain.CreateDomain(
                     friendlyName: string.Empty,
                     securityInfo: null,
-                    appBasePath: null,
+                    appBasePath: basePath,
                     appRelativeSearchPath: null,
                     shadowCopyFiles: false,
                     adInit: run,
-                    adInitArgs: null
+                    adInitArgs: arguments
                 );
 
             } finally {
