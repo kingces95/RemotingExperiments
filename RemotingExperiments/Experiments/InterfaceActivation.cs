@@ -26,12 +26,14 @@ namespace RemotingExperiments {
     public class InterfaceActivation {
 
         public interface IPingable { void Ping(); }
+        public interface IPongable { void Pong(); }
 
         public class Server {
 
             // Pinger is not visible to cilent except through IPingable
-            private class Pinger : MarshalByRefObject, IPingable {
+            private class Pinger : MarshalByRefObject, IPingable, IPongable {
                 public void Ping() { }
+                public void Pong() { }
             }
 
             public static object Run() {
@@ -56,11 +58,13 @@ namespace RemotingExperiments {
                 // cross-domain marshalling allows for reflection
                 var type = o.GetType();
                 var ifaces = type.GetInterfaces();
-                Debug.Assert(ifaces.Single() == typeof(IPingable));
+                Debug.Assert(ifaces.Count() == 2);
+                Debug.Assert(ifaces.Contains(typeof(IPingable)));
+                Debug.Assert(ifaces.Contains(typeof(IPongable)));
             }
         }
 
-        public static void Test() {
+        public static void Run() {
 
             var pinger = Server.Run();
 

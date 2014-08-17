@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F411A2D3-5EBE-42B5-B6FF-1C36FD5F07D6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{BD73D68B-3EC4-4643-A488-4245D0A4CABB}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RemotingExperiments</RootNamespace>
-    <AssemblyName>RemotingExperiments</AssemblyName>
+    <RootNamespace>Components</RootNamespace>
+    <AssemblyName>Components</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,34 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Experiments\InterfaceActivationTcp.cs" />
-    <Compile Include="Experiments\NewServer.cs" />
-    <Compile Include="Experiments\OldServer.cs" />
-    <Compile Include="Experiments\Template.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Experiments\InterfaceActivation.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Components.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Experiments\UnrestrictedFullDuplex.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ComponentsV2\ComponentsV2.csproj">
-      <Project>{51a3164b-2000-4377-b4e1-fb8e6669dff9}</Project>
-      <Name>ComponentsV2</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(TargetDir)v1"
-copy /y "$(TargetPath)" "$(TargetDir)v1"
-mkdir "$(TargetDir)v3"
-copy /y "$(TargetPath)" "$(TargetDir)v3"</PostBuildEvent>
+    <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)RemotingExperiments\$(OutDir)\v3"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -31,7 +31,7 @@ namespace RemotingExperiments {
         public interface IPingable { void Ping(); }
         public interface IPongable { void Pong(); }
 
-        public class Server {
+        public class Server : IDisposable {
 
             // PingPong is not visible to client except via the interfaces
             private class PingPong : MarshalByRefObject, IPingable, IPongable {
@@ -39,15 +39,22 @@ namespace RemotingExperiments {
                 public void Pong() { }
             }
 
-            public static void Run() {
+            private TcpChannel m_tcpChannel;
 
-                ChannelServices.RegisterChannel(new TcpChannel(Port), false);
+            public void Run() {
+
+                m_tcpChannel = new TcpChannel(Port);
+                ChannelServices.RegisterChannel(m_tcpChannel, false);
 
                 RemotingConfiguration.RegisterWellKnownServiceType(
                     type: typeof(PingPong),
                     objectUri: Uid,
                     mode: WellKnownObjectMode.Singleton
                 );
+            }
+
+            public void Dispose() {
+                ChannelServices.UnregisterChannel(m_tcpChannel);
             }
         }
 
@@ -64,7 +71,7 @@ namespace RemotingExperiments {
 
                 // activate pongable
                 var pongable = (IPongable)Activator.GetObject(
-                    typeof(IPingable),
+                    typeof(IPongable),
                     "tcp://localhost:" + Port + "/" + Uid
                 );
                 pongable.Pong();
@@ -83,13 +90,15 @@ namespace RemotingExperiments {
             }
         }
 
-        public static void Test() {
+        public static void Run() {
 
             // server
-            Server.Run();
+            using (var server = new Server()) {
+                server.Run();
 
-            // client
-            Extensions.RunInDomain(Client.Run);
+                // client
+                Extensions.RunInDomain(Client.Run);
+            }
         }
     }
 }
