@@ -14,6 +14,10 @@ namespace RemotingExperiments {
             public void Run(Action<object[]> run, params object[] arguments) {
                 run(arguments);
             }
+
+            public override object InitializeLifetimeService() {
+                return null;
+            }
         }
 
         public static void RunInDomain(AppDomainInitializer run, params string[] arguments) {
