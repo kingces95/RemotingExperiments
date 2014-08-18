@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Experiments\InterfaceActivationTcp.cs" />
+    <Compile Include="Experiments\MyRealProxy.cs" />
     <Compile Include="Experiments\VersionedClient.cs" />
     <Compile Include="Experiments\CrossAppDomainCall.cs" />
     <Compile Include="Extensions.cs" />

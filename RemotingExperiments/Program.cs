@@ -14,6 +14,8 @@ namespace RemotingExperiments {
             InterfaceActivation.Run();
             VersionedServer.Run(clientVersion: "v1"); // old client
             VersionedServer.Run(clientVersion: "v3"); // new client
+
+            CustomProxy.Run();
         }
     }
 }
