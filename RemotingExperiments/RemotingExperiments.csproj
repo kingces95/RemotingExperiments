@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experiments\SingleCallIdentity.cs" />
     <Compile Include="Experiments\InterfaceActivationTcp.cs" />
     <Compile Include="Experiments\MyRealProxy.cs" />
     <Compile Include="Experiments\VersionedClient.cs" />

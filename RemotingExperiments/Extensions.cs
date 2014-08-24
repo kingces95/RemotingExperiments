@@ -23,7 +23,8 @@ namespace RemotingExperiments {
 
         public static void RunInDomain(AppDomainInitializer run, 
             string basePath = null,
-            string[] arguments = null) {
+            string[] arguments = null,
+            Action runInThisDomain = null) {
 
             AppDomain appDomain = null;
 
@@ -37,6 +38,9 @@ namespace RemotingExperiments {
                     adInit: run,
                     adInitArgs: arguments
                 );
+
+                if (runInThisDomain != null)
+                    runInThisDomain();
 
             } finally {
                 AppDomain.Unload(appDomain);

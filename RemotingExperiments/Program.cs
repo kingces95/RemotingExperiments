@@ -9,6 +9,7 @@ namespace RemotingExperiments {
     public class Program {
         static void Main(string[] args) {
 
+            SingleCallIdentity.Run();
             CrossAppDomainCall.Run();
             InterfaceActivationTcp.Run();
             InterfaceActivation.Run();
